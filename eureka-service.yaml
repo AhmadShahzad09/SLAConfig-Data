@@ -1,0 +1,9 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    fetch-registry: false
+    registry-with-eureka: false
+    service-url:
+      default-zone: http://slaeureka:${server.port}/eureka/

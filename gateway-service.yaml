@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    fetch-registry: true
+    registry-with-eureka: true
+    service-url:
+      default-zone: http://slaeureka:8761/eureka
+  instance:
+    hostname: slaeureka
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enable: true
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+        - id: administration-service
+          uri: lb://administration-service
+          predicates:
+            - Path=/administration/**
+          filters:
+            - AuthFilter
+        - id: load-service
+          uri: lb://load-service
+          predicates:
+            - Path=/load/**
+          filters:
+            - AuthFilter
